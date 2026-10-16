@@ -12,6 +12,9 @@ dependencies = [
   "httpx>=0.27",
   "a2a-sdk>=1.2.2",
   "langgraph-sdk>=0.4.7",
+  # >=0.16: Agent Card con protocolBinding "JSONRPC" (mayúsculas) y partes A2A válidas,
+  # compatible con el cliente a2a-sdk 1.2.x (evita "no compatible transports found").
+  "langgraph-api>=0.16",
   "opentelemetry-api==1.42.1",
   "opentelemetry-sdk==1.42.1",
   "opentelemetry-exporter-otlp-proto-common==1.42.1",
