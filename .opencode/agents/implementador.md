@@ -1,7 +1,7 @@
 ---
 description: Implementador de agentes con LangChain y LangGraph (toma tareas de plan.json)
 mode: subagent
-model: openai/gpt-6-luna
+model: deepseek/deepseek-v4-pro
 temperature: 0.1
 tools:
   write: true

@@ -8,7 +8,7 @@ por A2A de forma nativa; después dos agentes conversan entre sí para resolver 
 
 | Integrante | Agente | Estado |
 |------------|--------|--------|
-| Rodrigo | `src/agente_rodrigo/` | pendiente |
+| Rodrigo | `src/agente_rodrigo/` · arquitectura backend (Java/Spring Boot, microservicios, APIs REST) + agentes de IA | hecho |
 | Constante | `src/agente_constante/` | pendiente |
 | Paulina | `src/agente_paulina/` | pendiente |
 | Christopher | `src/agente_christopher/` | pendiente |

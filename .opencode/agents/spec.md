@@ -1,7 +1,7 @@
 ---
 description: Agente creador de especificaciones (tareas en plan.json)
 mode: subagent
-model: openai/gpt-6-luna
+model: deepseek/deepseek-v4-pro
 tools:
   write: true
   edit: true
