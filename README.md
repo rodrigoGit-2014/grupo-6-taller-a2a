@@ -152,7 +152,7 @@ Si Christopher corre en otra máquina, **no levantes el servidor 2026**. Deja ac
 servidor de Rodrigo en 2025 y configura el perfil 2 en el `.env` de la raíz:
 
 ```dotenv
-A2A_URL_2=https://advise-inserted-tale-lace.trycloudflare.com
+A2A_URL_2=https://assume-setup-see-total.trycloudflare.com
 A2A_GRAPH_2=agente_christopher
 A2A_NOMBRE_2=Christopher
 A2A_ASSISTANT_ID_2=b71a76f3-1a4f-5263-a63d-b005bf9e46e1
