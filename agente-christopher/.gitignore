@@ -1,0 +1,11 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.langgraph_api/
+.ipynb_checkpoints/
+
+# Exclusiones adicionales de publicación
+.pytest_cache/
+.env.*
+!.env.example
