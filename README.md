@@ -146,7 +146,41 @@ usar el kernel de `agente-rodrigo/.venv` desde el notebook raíz.
 Cada servidor publica su propia Agent Card y asigna un `assistant_id` UUID a cada grafo. El
 `assistant_id` se descubre en tiempo de ejecución; no se escribe a mano en el notebook.
 
-Comprobación rápida:
+## Conectar con el agente de un compañero por Cloudflare
+
+Si Christopher corre en otra máquina, **no levantes el servidor 2026**. Deja activo solo el
+servidor de Rodrigo en 2025 y configura el perfil 2 en el `.env` de la raíz:
+
+```dotenv
+A2A_URL_2=https://advise-inserted-tale-lace.trycloudflare.com
+A2A_GRAPH_2=agente_christopher
+A2A_NOMBRE_2=Christopher
+A2A_ASSISTANT_ID_2=b71a76f3-1a4f-5263-a63d-b005bf9e46e1
+A2A_GESTIONAR_TARJETA_2=0
+```
+
+- `A2A_ASSISTANT_ID_2` evita depender de `/assistants/search` en el servidor remoto.
+- `A2A_GESTIONAR_TARJETA_2=0` indica que **no se modifica** la tarjeta de tu compañero.
+- La descripción que usa el router sigue siendo la de Christopher; si quieres otra, define
+  `A2A_DESCRIPCION_2`.
+- El notebook descarga la tarjeta por HTTPS y, si la tarjeta anuncia `localhost`, reemplaza la
+  dirección de la interfaz por la URL pública del túnel.
+
+Comprueba la conexión antes de ejecutar el notebook:
+
+```bash
+./scripts/verificar_remoto.sh
+```
+
+Debe imprimir el `name`, la `description` y la interfaz JSONRPC. Si aparece
+`Cloudflare error 1033`, el túnel no está activo o la URL cambió: pide la URL actual y actualiza
+`A2A_URL_2`. Los quick tunnels de Cloudflare son efímeros y cambian al reiniciar `cloudflared`.
+
+Después ejecuta `notebooks/a2a-test.ipynb` como siempre. El router llamará a Rodrigo en 2025 y a
+Christopher por el túnel. También puedes levantar 2025 y 2026 en local y usar el bloque local de
+`.env.example`; el notebook funciona en ambos modos.
+
+Comprobación rápida de los servidores locales:
 
 ```bash
 curl -s http://127.0.0.1:2025/ok
