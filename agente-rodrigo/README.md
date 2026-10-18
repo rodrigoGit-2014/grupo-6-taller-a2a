@@ -4,6 +4,10 @@ Taller 1 (Módulo 2): **mi agente especialista habla por A2A**.
 Cada integrante transforma la base `agente-viajes-a2a` en su propio agente especialista y lo expone
 por A2A de forma nativa; después dos agentes conversan entre sí para resolver un reto.
 
+> **Integración Grupo 6:** este perfil es `mi-agente` y corre en el puerto **2025**. Christopher está
+> integrado como segundo perfil en `../agente-christopher/` (puerto **2026**). El notebook compartido
+> de la Etapa 3 está en `../notebooks/a2a-test.ipynb`; el de este perfil conserva la Etapa 2.
+
 ## Integrantes
 
 | Integrante | Agente | Estado |
@@ -11,9 +15,12 @@ por A2A de forma nativa; después dos agentes conversan entre sí para resolver 
 | Rodrigo | `src/agente_rodrigo/` · arquitectura backend (Java/Spring Boot, microservicios, APIs REST) + agentes de IA | hecho |
 | Constante | `src/agente_constante/` | pendiente |
 | Paulina | `src/agente_paulina/` | pendiente |
-| Christopher | `src/agente_christopher/` | pendiente |
+| Christopher | `../agente-christopher/` · evaluación de costos de software | integrado |
 
 Grupo: **Grupo 6**.
+
+> Constante y Paulina no forman parte de esta rama de integración. La base `src/agente_viajes/` se
+> conserva porque la Etapa 1 la exige; no participa en el catálogo de la Etapa 3.
 
 ## Qué trae el proyecto
 
@@ -21,7 +28,8 @@ Grupo: **Grupo 6**.
 - `src/agente_<nombre>/` · agente de cada integrante (se crea con `@spec` e `@implementador`).
 - `bruno/` · colección para probar la Agent Card y `message/send`.
 - `tests/test_a2a_viajes.py` · pruebas del A2A nativo (requieren `langgraph dev` arriba).
-- `notebooks/a2a-test.ipynb` · notebook del taller (etapas 2 y 3).
+- `notebooks/a2a-test.ipynb` · Etapa 2 de este perfil + preparación de su tarjeta.
+- `../notebooks/a2a-test.ipynb` · Etapa 3 compartida: descubrimiento, router y conversación.
 
 Fuera de alcance: `src/swarm/` y `src/consumidor/` (no son parte de este taller).
 
@@ -48,8 +56,18 @@ y ejecútalas con `@implementador` una por una. Los pasos y las reglas están en
 (sección "Crear el agente de un integrante").
 
 ## 3. Hacer conversar a los especialistas (Etapa 3)
-Levanta el segundo agente en otro puerto y usa `notebooks/a2a-test.ipynb`:
+
+Levanta Rodrigo en 2025 y Christopher en 2026:
+
 ```bash
-langgraph dev --port 2025      # agente 1
-langgraph dev --port 2026      # agente 2 (en otra terminal / otro equipo)
+# Terminal 1 · Rodrigo
+cd agente-rodrigo && .venv/bin/langgraph dev --port 2025 --no-browser
+
+# Terminal 2 · Christopher (desde la raíz)
+cd agente-christopher && ../agente-rodrigo/.venv/bin/langgraph dev --port 2026 --no-browser
 ```
+
+Después abre el notebook compartido `../notebooks/a2a-test.ipynb` con el kernel de
+`agente-rodrigo/.venv`. Ese notebook actualiza las dos tarjetas, descubre ambos agentes, prueba el
+router y ejecuta la conversación de tres turnos. La Etapa 2 de este perfil se conserva en
+`notebooks/a2a-test.ipynb`.
