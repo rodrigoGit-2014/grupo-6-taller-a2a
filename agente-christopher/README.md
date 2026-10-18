@@ -86,7 +86,7 @@ $env:PYTHONUTF8 = "1"
 > En la integración del Grupo 6, este comando se ejecuta con `--port 2026` (Rodrigo usa 2025). El
 > notebook de Etapa 3 se ejecuta desde la raíz del repositorio, no desde esta carpeta.
 
-Deja la terminal abierta. Los dos grafos comparten `http://127.0.0.1:2025`; cada asistente tiene su propio UUID. El modelo predeterminado de la base es `gemini-3.5-flash-lite`; su disponibilidad debe verificarse en la cuenta que se utilice.
+Deja la terminal abierta. En la ejecución individual, los dos grafos comparten `http://127.0.0.1:2025`; en la integración del Grupo 6 este servidor usa `http://127.0.0.1:2026`. Cada asistente tiene su propio UUID. El modelo predeterminado de la base es `gemini-3.5-flash-lite`; su disponibilidad debe verificarse en la cuenta que se utilice.
 
 ## Pruebas de Christopher
 
@@ -134,7 +134,7 @@ $env:A2A_VIAJES_GRAPH = "agente_viajes"
 
 ## Colaboración con otros integrantes · etapa 3
 
-Christopher puede recibir una propuesta técnica de otro especialista y estimar sus costos. El flujo que pasa mensajes entre agentes se prepara en el notebook; registrar dos grafos no crea automáticamente una conversación entre ellos. Rodrigo no está incluido en este proyecto y debe ejecutarse o incorporarse por separado.
+Christopher puede recibir una propuesta técnica de otro especialista y estimar sus costos. El flujo que pasa mensajes entre agentes se prepara en el notebook; registrar dos grafos no crea automáticamente una conversación entre ellos. En la integración del Grupo 6, Rodrigo se ejecuta por separado en 2025 y la conversación se orquesta desde `../notebooks/a2a-test.ipynb`.
 
 ## Entrega del laboratorio
 
