@@ -23,15 +23,15 @@ grupo-6-taller-a2a/
 │
 ├── agente-rodrigo/                    # Perfil 1 · Rodrigo · servidor 2025.
 │   ├── README.md / AGENTS.md / blueprint.md
-│   ├── langgraph.json                 # Registra agente_rodrigo y la base agente_viajes.
+│   ├── langgraph.json                 # Registra agente_rodrigo.
 │   ├── src/agente_rodrigo/            # prompts.py, herramientas.py y graph.py.
 │   ├── notebooks/a2a-test.ipynb       # Etapa 2: pruebas y tarjeta de Rodrigo.
-│   ├── tests/                         # Pruebas del A2A nativo y de la base.
+│   ├── tests/                         # Pruebas propias del perfil.
 │   └── bruno/                         # Colección HTTP para tarjeta y message/send.
 │
 ├── agente-christopher/                # Perfil 2 · Christopher · servidor 2026.
 │   ├── README.md / AGENTS.md / blueprint.md / VERIFICACION.md
-│   ├── langgraph.json                 # Registra agente_christopher y la base agente_viajes.
+│   ├── langgraph.json                 # Registra agente_christopher.
 │   ├── src/agente_christopher/        # prompts.py, herramientas.py y graph.py.
 │   ├── notebooks/a2a-test.ipynb       # Etapa 2: pruebas y tarjeta de Christopher.
 │   ├── tests/test_costos.py           # 22 pruebas de cálculo, sin modelo ni servidor.
@@ -39,10 +39,10 @@ grupo-6-taller-a2a/
 │
 ├── agente-paulina/                    # Perfil 3 · Paulina · servidor 2027.
 │   ├── README.md / AGENTS.md / blueprint.md
-│   ├── langgraph.json                 # Registra agente_paulina y la base agente_viajes.
+│   ├── langgraph.json                 # Registra agente_paulina.
 │   ├── src/agente_paulina/            # prompts.py, herramientas.py y graph.py.
 │   ├── notebooks/a2a-test.ipynb       # Etapa 2: pruebas y tarjeta de Paulina.
-│   ├── tests/                         # Retorno, impacto en KPI, apuntes y A2A.
+│   ├── tests/                         # Retorno, impacto en KPI y apuntes.
 │   └── bruno/                         # Colección HTTP original.
 │
 ├── notebooks/
@@ -241,8 +241,7 @@ cd agente-christopher
 
 Resultado de referencia: `22 passed`. No requiere clave ni servidor.
 
-Las pruebas de A2A de la base de viajes requieren un servidor levantado; no forman parte de la
-conversación de Etapa 3.
+Los tests de cada perfil se ejecutan sin clave ni servidor.
 
 ## Empaquetar la entrega
 
@@ -261,9 +260,9 @@ dos conversaciones para comentar en clase.
 
 ## Decisiones de la integración
 
-1. **`src/agente_viajes/` se conserva** en los perfiles. La especificación de la Etapa 1 pide
-   entregar la base tal cual. No participa en el catálogo de Etapa 3: el descubrimiento busca los
-   grafos `agente_rodrigo`, `agente_christopher` y `agente_paulina`.
+1. **Cada perfil es autónomo.** La base histórica se retiró del repositorio: cada perfil publica
+   únicamente su propio grafo (`agente_rodrigo`, `agente_christopher` y `agente_paulina`) y no
+   comparte código con los demás.
 2. **Cada perfil conserva su notebook de Etapa 2.** El router dinámico vive en el notebook
    compartido de la raíz para no mezclar pruebas individuales con orquestación.
 3. **Las tarjetas se actualizan con `assistants.update`.** El nombre y la descripción son los que

@@ -3,8 +3,8 @@
 ## Alcance vigente
 
 - `src/agente_paulina/`: agente de estrategia y valor de negocio de IA y datos, con `SYSTEM_PAULINA`, apuntes y cálculo de retorno.
-- `src/agente_viajes/`: base original de vuelos y hoteles, conservada sin cambios.
-- Ambos grafos se registran en `langgraph.json`; el servidor local de la integración usa el puerto 2027 (2025 Rodrigo, 2026 Christopher).
+- El grafo se registra en `langgraph.json`; el servidor local de la integración usa el puerto 2027 (2025 Rodrigo, 2026 Christopher).
+- La base histórica de viajes y el esqueleto de consumidor se retiraron del repositorio.
 - `blueprint.md` documenta el diseño; `README.md` es la guía de arranque y pruebas.
 - `tests/test_retorno.py` importa desde `src.agente_paulina` y no requiere modelo ni servidor.
 

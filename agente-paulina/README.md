@@ -6,14 +6,11 @@ Paulina es especialista en **estrategia y valor de negocio de IA y datos**. Defi
 > puerto **2027**; Rodrigo corre en el **2025** y Christopher en el **2026**. El notebook compartido
 > de la Etapa 3 está en `../notebooks/a2a-test.ipynb`.
 
-El proyecto conserva además el agente original de viajes como ejemplo independiente. Ambos grafos se publican desde el mismo servidor LangGraph y tienen identidades distintas.
-
-## Agentes disponibles
+## Agente disponible
 
 | Grafo | Implementación | Función |
 |---|---|---|
 | `agente_paulina` | `src/agente_paulina/` | Definir el caso de negocio, evaluar impacto y retorno, y priorizar un roadmap. |
-| `agente_viajes` | `src/agente_viajes/` | Buscar vuelos y hoteles con los datos simulados originales. |
 
 El diseño completo está en [blueprint.md](blueprint.md).
 
@@ -31,23 +28,20 @@ No diseña arquitectura (Rodrigo) ni calcula costos de desarrollo (Christopher).
 agente-paulina/
 ├── README.md                 # Inicio, ejecución y pruebas
 ├── blueprint.md              # Identidad y decisiones de diseño
-├── langgraph.json            # Registro de agente_paulina y agente_viajes
+├── langgraph.json            # Registro de agente_paulina
 ├── requirements.txt          # Dependencias del taller
 ├── pyproject.toml            # Metadatos del proyecto
 ├── .env.example              # Plantilla sin clave
 ├── src/
-│   ├── agente_paulina/
-│   │   ├── prompts.py        # SYSTEM_PAULINA: identidad y reglas
-│   │   ├── herramientas.py   # Apuntes, evaluar_impacto_kpi y calcular_retorno
-│   │   └── graph.py          # Modelo + herramientas + prompt
-│   ├── agente_viajes/        # Base del taller, independiente
-│   └── consumidor/           # Material base conservado
+│   └── agente_paulina/
+│       ├── prompts.py        # SYSTEM_PAULINA: identidad y reglas
+│       ├── herramientas.py   # Apuntes, evaluar_impacto_kpi y calcular_retorno
+│       └── graph.py          # Modelo + herramientas + prompt
 ├── notebooks/a2a-test.ipynb  # Etapa 2: pruebas y tarjeta
 ├── tests/test_retorno.py     # Cálculos y validaciones sin modelo
 ├── tests/test_impacto_kpi.py # Variaciones de KPI y validaciones
 ├── tests/test_apuntes.py     # Temas, mayúsculas y sinónimos
-├── tests/test_a2a_viajes.py  # Pruebas originales de la base
-├── bruno/                    # Colección HTTP original
+├── bruno/                    # Colección HTTP del perfil
 ├── plan.json                 # Historial base de tareas
 └── .opencode/agents/         # Asistentes de desarrollo spec e implementador
 ```
@@ -116,7 +110,7 @@ Para correr todo el conjunto local:
 
 Abre `notebooks/a2a-test.ipynb`, selecciona `.venv/Scripts/python.exe` como kernel y ejecuta las celdas en orden: configuración, descubrimiento de `agente_paulina`, personalidad, conocimientos y herramientas, memoria, tarjeta y envío A2A. Guarda las salidas reales sin limpiarlas.
 
-El notebook usa `A2A_PORT=2027` por defecto y filtra por `agente_paulina`; la presencia de `agente_viajes` no cambia esa selección.
+El notebook usa `A2A_PORT=2027` por defecto y filtra por `agente_paulina`.
 
 ### Descubrimiento de asistentes
 

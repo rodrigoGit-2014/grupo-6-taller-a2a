@@ -188,15 +188,11 @@ Los tres blueprints se incluyen en el ZIP de entrega y quedan enlazados desde es
 
 | Etapa | Evidencia | Dónde verla |
 |---|---|---|
-| 1. Base del agente | `agente_viajes` conservada en los tres perfiles; `langgraph.json` y pruebas base. | `agente-*/src/agente_viajes/`, `agente-*/langgraph.json` |
+| 1. Agente especialista | Paquete propio por perfil, `langgraph.json` y pruebas. | `agente-*/src/agente_<perfil>/`, `agente-*/langgraph.json` |
 | 2. Agente especialista | Notebook de Etapa 2 por perfil, tarjeta A2A y pruebas de herramientas. | `agente-*/notebooks/a2a-test.ipynb`, `agente-*/tests/` |
 | 3. Integración A2A | Notebook raíz con **Run All**: descubrimiento, router 3/3, dos conversaciones y cierre. | `notebooks/a2a-test.ipynb` |
 
-**Evidencia visual de la Etapa 1.** Arranque del servidor local de Paulina en `127.0.0.1:2027`: se observa la carga de `agente_viajes` y el runtime de LangGraph listo para recibir solicitudes.
-
-![Log de arranque del servidor local de Paulina en 2027](captura-servidor.png)
-
-*Figura 1. Evidencia de la Etapa 1: base `agente_viajes` cargada y servidor LangGraph iniciado en el puerto 2027.*
+**Evidencia visual de la Etapa 1.** El arranque de cada servidor se regenera con `langgraph dev --port <puerto>`; los logs actuales muestran únicamente el grafo del perfil.
 
 ### 4.7 Ajustes realizados
 
@@ -347,7 +343,7 @@ El script `scripts/empaquetar_entrega.bat` genera `dist/grupo-6-taller-a2a-entre
 - `README.md`, `.env.example` y `.gitignore`;
 - los tres perfiles (`agente-rodrigo/`, `agente-christopher/`, `agente-paulina/`);
 - el notebook raíz ejecutado y los notebooks de Etapa 2;
-- `docs/entrega/documento-entrega.md`, `documento-entrega.pdf` y `captura-servidor.png`;
+- `docs/entrega/documento-entrega.md` y `documento-entrega.pdf`;
 - `scripts/` y las pruebas;
 - blueprints, README y AGENTS de cada perfil; el `blueprint.md` de Paulina también queda en la raíz del ZIP.
 
@@ -378,7 +374,7 @@ El script `scripts/empaquetar_entrega.bat` genera `dist/grupo-6-taller-a2a-entre
 - [x] Blueprints de los tres perfiles referenciados.
 - [x] Evidencias por etapa y ajustes realizados documentados.
 - [x] Script de empaquetado con exclusión de `.env` y `.venv`.
-- [x] Captura de la Etapa 1 incorporada en la sección 4.6.
+- [x] Evidencia de arranque descrita en la sección 4.6.
 - [ ] Capturas de respaldo adicionales, si se requieren en el anexo.
 
 ---
@@ -406,7 +402,7 @@ Esta sección documenta la prueba individual del agente Paulina con `agente-paul
 | Herramientas | `consultar_mis_apuntes`, `evaluar_impacto_kpi`, `calcular_retorno`. |
 | Autonomía | Analiza, evalúa impactos y retornos, y recomienda prioridades. Puede proponer supuestos explícitos cuando falta un dato, sin presentarlos como cifras reales. No compra, contrata, paga ni ejecuta inversiones. |
 | Cuándo pide ayuda | Pide beneficio, costo, horizonte o KPIs cuando faltan; deriva a Rodrigo si se requiere arquitectura y a Christopher si se requieren costos de desarrollo. |
-| Dónde se ejecuta | `http://127.0.0.1:2027` · grafo `agente_paulina`. Comparte servidor con el grafo independiente `agente_viajes`. |
+| Dónde se ejecuta | `http://127.0.0.1:2027` · grafo `agente_paulina`. |
 
 ### 11.2 Respuestas de la prueba
 

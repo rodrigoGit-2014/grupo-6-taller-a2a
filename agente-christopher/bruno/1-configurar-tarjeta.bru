@@ -12,12 +12,12 @@ patch {
 
 body:json {
   {
-    "name": "Agente de viajes",
-    "description": "Busca vuelos y hoteles (SCL, LIM, BOG, EZE) con precios en CLP. No gestiona pagos ni seguros."
+    "name": "Christopher",
+    "description": "Especialista en evaluación de costos de programación y desarrollo de software. Estima, compara y explica costos en CLP con un tarifario simulado fijo, muestra 7 u 8 partidas y separa el trabajo inicial de los servicios recurrentes. No compra, contrata ni despliega; pide contexto cuando falta alcance."
   }
 }
 
 assert {
   res.status: eq 200
-  res.body.name: eq Agente de viajes
+  res.body.name: eq Christopher
 }

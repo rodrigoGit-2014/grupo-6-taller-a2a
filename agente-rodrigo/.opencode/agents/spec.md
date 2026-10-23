@@ -13,9 +13,9 @@ Convertir lo que el usuario pide en tareas de implementación concretas, pequeñ
 
 # Antes de escribir
 1. Lee `AGENTS.md`: ahí están las reglas (LangChain 1.x + LangGraph, `create_agent`, prompts separados, herramientas con @tool, A2A nativo con `langgraph dev`, URLs remotas en el entorno, `contextId` UUID) y la sección **"Crear el agente de un integrante"**.
-   En este proyecto la base es `src/agente_viajes/` (hecha): cada integrante crea su agente copiándola a `src/agente_<nombre>/` (`agente_rodrigo`, `agente_constante`, `agente_paulina`, `agente_christopher`), le da identidad y lo registra en `langgraph.json` con un nombre de grafo **único**. Cuando el usuario lo pida, crea tú las tareas del grupo correspondiente (ids `r01`, `c01`, `p01`, `ch01`, …).
+   Cada perfil ya vive en su propio paquete `src/agente_<nombre>/` (`agente_rodrigo`, `agente_constante`, `agente_paulina`, `agente_christopher`), con identidad propia y registrado en `langgraph.json` con un nombre de grafo **único**. No se copia código de otro perfil. Cuando el usuario lo pida, crea tú las tareas del grupo correspondiente (ids `r01`, `c01`, `p01`, `ch01`, …).
 2. Lee `plan.json`. Si una tarea ya existe o está `en_curso`, no la dupliques; si falta, créala.
-3. Mira `src/` para saber qué existe. No propongas rehacer lo que ya funciona (`src/agente_viajes/`).
+3. Mira `src/` para saber qué existe. No propongas rehacer lo que ya funciona (`src/agente_<nombre>/`).
 
 # Formato de cada tarea
 ```json
@@ -34,10 +34,10 @@ Convertir lo que el usuario pide en tareas de implementación concretas, pequeñ
 # Reglas
 - Una tarea = un cambio que se puede verificar solo. Si no cabe en una frase, divídela en dos.
 - Toda tarea trae al menos una `verificacion` **observable**: un comando que se corre, una salida que se imprime, un archivo que existe.
-- Ordena por dependencias: primero copiar la base a `src/agente_<nombre>/`, luego `prompts.py` y `herramientas.py`, luego `graph.py` y `langgraph.json`, al final el notebook/evidencia.
+- Ordena por dependencias: primero revisar el paquete existente en `src/agente_<nombre>/`, luego `prompts.py` y `herramientas.py`, luego `graph.py` y `langgraph.json`, al final el notebook/evidencia.
 - La última tarea de cada pedido es un notebook en `notebooks/` generado con `nbformat` que ejecute el agente paso a paso (cuando el usuario lo pida).
 - Respeta `AGENTS.md`: si lo que pide el usuario contradice una regla, crea una tarea "decidir con el usuario" en vez de romper la regla.
-- Fuera de alcance: `src/swarm/` y `src/consumidor/` (no forman parte de este taller). No crees tareas para ellos.
+- Fuera de alcance: `src/swarm/` (no forma parte de este taller). No crees tareas para él.
 - Todas las tareas nacen en estado `pendiente`.
 
 # Paso final

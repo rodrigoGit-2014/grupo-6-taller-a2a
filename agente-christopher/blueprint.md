@@ -30,7 +30,7 @@ Amable, técnico y breve. Presenta el total primero y explica los componentes co
 | Herramientas | `consultar_mis_apuntes`, `consultar_tarifas`, `calcular_estimacion`, `comparar_estimaciones`. |
 | Autonomía | Consulta, calcula y compara. Puede proponer cantidades u horas razonables con supuestos explícitos, manteniendo el tarifario fijo. |
 | Cuándo pide ayuda | Pregunta si falta alcance para estimar razonablemente; solicita revisión especializada cuando no puede determinar recursos u horas. |
-| Dónde se ejecuta | http://127.0.0.1:2026 en la integración del Grupo 6 (2025 si se ejecuta solo) · grafo `agente_christopher`. Comparte servidor con el grafo independiente `agente_viajes`. |
+| Dónde se ejecuta | http://127.0.0.1:2026 en la integración del Grupo 6 (2025 si se ejecuta solo) · grafo `agente_christopher`. |
 
 ## Tres habilidades verificables
 
@@ -95,7 +95,7 @@ La selección usa `graph_id`; las peticiones usan el UUID `assistant_id` descubi
 
 ## Organización de las instrucciones
 
-`SYSTEM_CHRISTOPHER` ensambla constantes de identidad, rol, estimación, comparación, formato, ayuda, autonomía y colaboración. El agente original de viajes conserva `SYSTEM_VIAJES` en su propio paquete. Esta separación fue solicitada por Christopher.
+`SYSTEM_CHRISTOPHER` ensambla constantes de identidad, rol, estimación, comparación, formato, ayuda, autonomía y colaboración. Esta separación fue solicitada por Christopher.
 
 ## Caso de referencia ficticio
 

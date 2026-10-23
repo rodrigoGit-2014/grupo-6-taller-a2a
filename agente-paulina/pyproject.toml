@@ -1,5 +1,5 @@
 [project]
-name = "agente-viajes-a2a"
+name = "agente-paulina-a2a"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [

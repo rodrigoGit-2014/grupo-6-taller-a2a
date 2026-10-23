@@ -1,10 +1,9 @@
 # Verificación de la reorganización · 17 de octubre de 2026
 
 - Christopher ahora está en `src/agente_christopher/`, con `SYSTEM_CHRISTOPHER` y reglas separadas por propósito.
-- Viajes conserva exactamente los cuatro archivos Python de la base original en `src/agente_viajes/`.
-- `langgraph.json` publica ambos grafos. Los dos compilaron y exponen `messages`, sin consultas al proveedor; se usó un marcador temporal de clave solo para esa comprobación estructural.
+- La base de viajes se retiró del repositorio; el perfil conserva solo su paquete `src/agente_christopher/`.
+- `langgraph.json` publica el grafo `agente_christopher`. Compiló y expone `messages`, sin consultas al proveedor; se usó un marcador temporal de clave solo para esa comprobación estructural.
 - `python -m pytest tests/test_costos.py -q`: **22 passed** después de cambiar los imports al paquete nuevo.
-- Herramientas de viajes verificadas localmente: dos vuelos SCL-LIM y cálculo de hotel por dos noches.
 - Blueprint del proyecto y copia de la raíz idénticos. README consolidado; guía auxiliar reducida a referencias.
 - Notebook, configuración local de VS Code y `.env` sin modificar en esta reorganización. Volver a descubrir asistentes tras reiniciar el servidor.
 
@@ -28,7 +27,7 @@ El reporte siguiente corresponde a la preparación inicial. Su nota sobre la cla
 - Equipamiento, períodos de alojamiento y errores de entrada comprobados.
 - Grafo compilado como CompiledStateGraph, estado de salida con messages y límite de 30 pasos. Se utilizó un marcador temporal de clave solo en el proceso de verificación; no se llamó a Gemini ni se guardó una clave ficticia en .env.
 - `python -m pip check`: **No broken requirements found**.
-- Configuración: agente_christopher; src/swarm omitido; archivos originales conservados en la carpeta base; notebook sin editar.
+- Configuración: agente_christopher; src/swarm omitido; notebook sin editar.
 
 ## Pendiente para demostrar la ejecución completa
 

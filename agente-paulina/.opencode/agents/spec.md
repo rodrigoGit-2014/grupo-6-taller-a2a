@@ -13,7 +13,7 @@ Convertir lo que el usuario pide en tareas de implementación concretas, pequeñ
 
 # Antes de escribir
 1. Lee `AGENTS.md`: ahí están las reglas (LangChain 1.x + LangGraph, `create_agent`, prompts separados, herramientas con @tool, A2A nativo con `langgraph dev`, URLs remotas en el entorno, `contextId` UUID).
-   En este proyecto `plan.json` trae `viajes` (hecho) y `swarm` (pendiente, s01–s05). El grupo `agente-conversacional` no tiene tareas: cuando el usuario lo pida, créalas tú (ids `a01`, `a02`, …) siguiendo las pistas de `src/consumidor/README.md`; si el usuario pide un número de pasos (por ejemplo 3: configuración base, agentes, consumo), crea exactamente esas tareas más la del notebook paso a paso con `nbformat`, que sigue las mismas secciones.
+   En este proyecto `plan.json` contiene las tareas del perfil. No hay grupos de viajes, consumidor ni swarm. Si el usuario pide un número de pasos, crea exactamente esas tareas más la del notebook paso a paso con `nbformat`.
 2. Lee `plan.json`. Si una tarea ya existe o está `en_curso`, no la dupliques; si falta, créala.
 3. Mira `src/` para saber qué existe. No propongas rehacer lo que ya funciona.
 

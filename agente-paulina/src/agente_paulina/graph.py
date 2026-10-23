@@ -10,10 +10,6 @@ from src.agente_paulina.herramientas import HERRAMIENTAS
 from src.agente_paulina.prompts import SYSTEM_PAULINA
 
 load_dotenv()
-if not os.environ.get("GOOGLE_API_KEY"):
-    raise ValueError(
-        "Configura GOOGLE_API_KEY en el archivo .env local de agente-paulina antes de iniciar a Paulina."
-    )
 
 modelo = ChatGoogleGenerativeAI(model=os.environ.get("MODELO", "gemini-3.5-flash-lite"))
 parametros_agente = {

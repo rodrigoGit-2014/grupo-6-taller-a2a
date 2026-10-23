@@ -1,8 +1,8 @@
 # grupo-6-taller-a2a
 
 Taller 1 (Módulo 2): **mi agente especialista habla por A2A**.
-Cada integrante transforma la base `agente-viajes-a2a` en su propio agente especialista y lo expone
-por A2A de forma nativa; después dos agentes conversan entre sí para resolver un reto.
+Cada integrante construye su propio agente especialista y lo expone por A2A de forma nativa;
+después dos agentes conversan entre sí para resolver un reto.
 
 > **Integración Grupo 6:** este perfil es `mi-agente` y corre en el puerto **2025**. Christopher está
 > integrado como segundo perfil en `../agente-christopher/` (puerto **2026**). El notebook compartido
@@ -19,21 +19,19 @@ por A2A de forma nativa; después dos agentes conversan entre sí para resolver 
 
 Grupo: **Grupo 6**.
 
-> Constante y Paulina no forman parte de esta rama de integración. La base `src/agente_viajes/` se
-> conserva porque la Etapa 1 la exige; no participa en el catálogo de la Etapa 3.
+> Constante y Paulina no forman parte de esta rama de integración. Cada perfil es autónomo y
+> publica únicamente su propio grafo.
 
 ## Qué trae el proyecto
 
-- `src/agente_viajes/` · base del taller (vuelos y hoteles). **Ya funciona**; es el punto de partida.
-- `src/agente_<nombre>/` · agente de cada integrante (se crea con `@spec` e `@implementador`).
+- `src/agente_rodrigo/` · agente de Rodrigo (se mantiene con `@spec` e `@implementador`).
 - `bruno/` · colección para probar la Agent Card y `message/send`.
-- `tests/test_a2a_viajes.py` · pruebas del A2A nativo (requieren `langgraph dev` arriba).
 - `notebooks/a2a-test.ipynb` · Etapa 2 de este perfil + preparación de su tarjeta.
 - `../notebooks/a2a-test.ipynb` · Etapa 3 compartida: descubrimiento, router y conversación.
 
-Fuera de alcance: `src/swarm/` y `src/consumidor/` (no son parte de este taller).
+Fuera de alcance: `src/swarm/` (no forma parte de este taller).
 
-## 1. Levantar la base (A2A nativo, sin código de servidor)
+## 1. Levantar el agente (A2A nativo, sin código de servidor)
 ```bash
 python3 -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\activate   (Python 3.11+)
 pip install -r requirements.txt
@@ -42,13 +40,12 @@ langgraph dev --port 2025                              # http://127.0.0.1:2025
 ```
 El servidor asigna a cada grafo un `assistant_id` (UUID). Con él se obtiene la tarjeta y el endpoint:
 ```bash
-AID=$(curl -s -X POST http://127.0.0.1:2025/assistants/search -H "Content-Type: application/json" -d '{"graph_id":"agente_viajes"}' | python3 -c "import json,sys; print(json.load(sys.stdin)[0]['assistant_id'])")
+AID=$(curl -s -X POST http://127.0.0.1:2025/assistants/search -H "Content-Type: application/json" -d '{"graph_id":"agente_rodrigo"}' | python3 -c "import json,sys; print(json.load(sys.stdin)[0]['assistant_id'])")
 curl -s "http://127.0.0.1:2025/.well-known/agent-card.json?assistant_id=$AID" | python3 -m json.tool
 CTX=$(python3 -c "import uuid; print(uuid.uuid4())")     # contextId = UUID = thread del agente remoto
-curl -s -X POST "http://127.0.0.1:2025/a2a/$AID" -H "Content-Type: application/json" -d "{\"jsonrpc\":\"2.0\",\"id\":\"1\",\"method\":\"message/send\",\"params\":{\"message\":{\"role\":\"user\",\"messageId\":\"m1\",\"contextId\":\"$CTX\",\"parts\":[{\"kind\":\"text\",\"text\":\"Quiero un vuelo de Santiago a Lima el 2026-11-10 y un hotel por 2 noches\"}]}}}"
+curl -s -X POST "http://127.0.0.1:2025/a2a/$AID" -H "Content-Type: application/json" -d "{\"jsonrpc\":\"2.0\",\"id\":\"1\",\"method\":\"message/send\",\"params\":{\"message\":{\"role\":\"user\",\"messageId\":\"m1\",\"contextId\":\"$CTX\",\"parts\":[{\"kind\":\"text\",\"text\":\"¿Cómo mejoro la resiliencia de un microservicio con Redis?\"}]}}}"
 ```
 - Bruno: abre `bruno/`, elige el entorno `local`, corre `0-assistant-id`, `1-configurar-tarjeta` y luego `agent-card` y `message-send`.
-- Pruebas: `pytest tests/test_a2a_viajes.py` (con `langgraph dev` arriba).
 
 ## 2. Crear el agente de cada integrante
 Con `langgraph dev` corriendo, abre OpenCode y pide las tareas a `@spec` (grupo `agente_<nombre>`), revísalas

@@ -1,31 +1,30 @@
 {
   "proyecto": "grupo-6-taller-a2a",
   "grupos": {
-    "base": "Copia de agente_viajes en src/agente_viajes/ (vuelos y hoteles). Punto de partida del taller. HECHO: no se modifica.",
-    "agente_rodrigo": "Copia de src/agente_viajes con la identidad de Rodrigo, expuesta por A2A nativo. Sin crear: lo define @spec.",
-    "agente_constante": "Copia de src/agente_viajes con la identidad de Constante, expuesta por A2A nativo. Sin crear: lo define @spec.",
-    "agente_paulina": "Copia de src/agente_viajes con la identidad de Paulina, expuesta por A2A nativo. Sin crear: lo define @spec.",
+    "agente_rodrigo": "Paquete propio de Rodrigo en src/agente_rodrigo/, expuesto por A2A nativo.",
+    "agente_constante": "Paquete propio de Constante en su proyecto, expuesto por A2A nativo. Sin crear: lo define @spec.",
+    "agente_paulina": "Paquete propio de Paulina en su proyecto, expuesto por A2A nativo. Sin crear: lo define @spec.",
     "agente_christopher": "Integrado desde origin/Christopher en ../agente-christopher/. Es el segundo perfil de la Etapa 3 y corre en el puerto 2026.",
     "etapa_3": "Dos perfiles (Rodrigo 2025 y Christopher 2026) descubiertos y conversando por A2A. El notebook orquestador vive en notebooks/a2a-test.ipynb, en la raíz del repositorio."
   },
   "tareas": [
     {
       "id": "r01",
-      "nombre": "Copiar la base a src/agente_rodrigo/",
+      "nombre": "Crear el paquete src/agente_rodrigo/",
       "estado": "hecho",
       "grupo": "agente_rodrigo",
       "depende_de": [],
-      "descripcion": "Copiar src/agente_viajes/ a src/agente_rodrigo/ con los mismos tres archivos (graph.py, herramientas.py, prompts.py). Regla AGENTS.md 'Crear el agente de un integrante' paso 1. NO modificar src/agente_viajes/ ni otra carpeta de otro integrante. La copia queda como punto de partida que luego se reescribe.",
+      "descripcion": "Crear el paquete src/agente_rodrigo/ con los tres archivos (graph.py, herramientas.py, prompts.py). Cada perfil es autónomo: no se copia código de otros perfiles ni de una base común.",
       "entregables": [
-        "src/agente_rodrigo/graph.py (copia literal de src/agente_viajes/graph.py)",
-        "src/agente_rodrigo/herramientas.py (copia literal)",
-        "src/agente_rodrigo/prompts.py (copia literal)"
+        "src/agente_rodrigo/graph.py",
+        "src/agente_rodrigo/herramientas.py",
+        "src/agente_rodrigo/prompts.py"
       ],
       "verificacion": [
         "ls src/agente_rodrigo/ muestra graph.py, herramientas.py y prompts.py",
-        "src/agente_viajes/ sigue intacto (los 3 archivos originales sin cambios)"
+        "el paquete no importa código de otros perfiles"
       ],
-      "evidencia": "src/agente_rodrigo/ contiene graph.py, herramientas.py y prompts.py (más __init__.py vacío copiado de la base). diff entre cada archivo de src/agente_viajes/ y su copia en src/agente_rodrigo/ no arrojó diferencias (copia literal). src/agente_viajes/ conserva intactos sus 3 archivos originales sin cambios."
+      "evidencia": "src/agente_rodrigo/ contiene graph.py, herramientas.py y prompts.py. El paquete es autónomo; la base histórica ya no forma parte del repositorio."
     },
     {
       "id": "r02",
@@ -92,15 +91,15 @@
       "depende_de": [
         "r04"
       ],
-      "descripcion": "Agregar el grafo de Rodrigo a langgraph.json con un nombre de grafo UNICO igual al de su carpeta (regla AGENTS.md paso 3): anadir a 'graphs' la entrada \"agente_rodrigo\": \"./src/agente_rodrigo/graph.py:graph\", conservando la entrada existente \"agente_viajes\". No borrar ni renombrar lo que ya existe.",
+      "descripcion": "Agregar el grafo de Rodrigo a langgraph.json con un nombre de grafo UNICO igual al de su carpeta (regla AGENTS.md paso 3): en 'graphs' la entrada \"agente_rodrigo\": \"./src/agente_rodrigo/graph.py:graph\". No registrar grafos de otros perfiles en este proyecto.",
       "entregables": [
-        "langgraph.json: entrada \"agente_rodrigo\": \"./src/agente_rodrigo/graph.py:graph\" junto a la de agente_viajes"
+        "langgraph.json: entrada \"agente_rodrigo\": \"./src/agente_rodrigo/graph.py:graph\" como única entrada de graphs"
       ],
       "verificacion": [
         "python3 -c \"import json; g=json.load(open('langgraph.json'))['graphs']; print(g.get('agente_rodrigo'))\" imprime ./src/agente_rodrigo/graph.py:graph",
-        "python3 -c \"import json; print('agente_viajes' in json.load(open('langgraph.json'))['graphs'])\" imprime True"
+        "python3 -c \"import json; g=json.load(open('langgraph.json'))['graphs']; print(list(g))\" imprime ['agente_rodrigo']"
       ],
-      "evidencia": "langgraph.json editado: anadida la entrada \"agente_rodrigo\": \"./src/agente_rodrigo/graph.py:graph\" junto a la existente \"agente_viajes\" (sin borrar ni renombrar nada). Verificacion REAL con .venv: '.venv/bin/python -c \"import json; g=json.load(open('langgraph.json'))['graphs']; print(g.get('agente_rodrigo'))\"' imprime './src/agente_rodrigo/graph.py:graph' (exit 0); '.venv/bin/python -c \"import json; print('agente_viajes' in json.load(open('langgraph.json'))['graphs'])\"' imprime 'True' (exit 0)."
+      "evidencia": "langgraph.json contiene únicamente la entrada \"agente_rodrigo\": \"./src/agente_rodrigo/graph.py:graph\". Verificado con .venv: el valor del grafo es correcto y no hay otros grafos registrados."
     },
     {
       "id": "r06",
@@ -169,7 +168,7 @@
       "depende_de": [
         "r08"
       ],
-      "descripcion": "Copiar agente-christopher/ desde origin/Christopher como segundo perfil (2026), conservar agente_viajes/ en ambos proyectos, quitar el router dinamico de los notebooks de perfil y crear notebooks/a2a-test.ipynb en la raiz para descubrir las dos tarjetas, probar el router y ejecutar la conversacion de tres turnos.",
+      "descripcion": "Copiar agente-christopher/ desde origin/Christopher como segundo perfil (2026), quitar el router dinamico de los notebooks de perfil y crear notebooks/a2a-test.ipynb en la raiz para descubrir las dos tarjetas, probar el router y ejecutar la conversacion de tres turnos.",
       "entregables": [
         "agente-christopher/ completo con su blueprint.md y su notebook de Etapa 2 ejecutado",
         "notebooks/a2a-test.ipynb con tarjetas, descubrimiento, router y conversacion",
