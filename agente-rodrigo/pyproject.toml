@@ -1,0 +1,32 @@
+[project]
+name = "grupo-6-taller-a2a"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "langgraph>=1.2,<2",
+  "langchain>=1.3,<2",
+  "langchain-core>=1.6,<2",
+  "langchain-google-genai>=4.3,<5",
+  "langchain-deepseek>=1.1,<2",
+  "pydantic>=2.7,<3",
+  "python-dotenv>=1.0",
+  "httpx>=0.27",
+  "a2a-sdk>=1.2.2",
+  "langgraph-sdk>=0.4.7",
+  # >=0.16: Agent Card con protocolBinding "JSONRPC" (mayúsculas) y partes A2A válidas,
+  # compatible con el cliente a2a-sdk 1.2.x (evita "no compatible transports found").
+  "langgraph-api>=0.16",
+  "opentelemetry-api==1.42.1",
+  "opentelemetry-sdk==1.42.1",
+  "opentelemetry-exporter-otlp-proto-common==1.42.1",
+  "opentelemetry-exporter-otlp-proto-http==1.42.1",
+  "opentelemetry-semantic-conventions==0.63b1",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+]

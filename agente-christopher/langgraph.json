@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "agente_christopher": "./src/agente_christopher/graph.py:graph"
+  },
+  "env": ".env"
+}

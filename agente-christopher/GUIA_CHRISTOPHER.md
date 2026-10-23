@@ -1,0 +1,9 @@
+# Guía de Christopher
+
+La guía principal está consolidada en [README.md](README.md): configuración, arranque, estructura, pruebas y entrega.
+
+- [Blueprint](blueprint.md): perfil, habilidades, conocimientos y límites.
+- [Notebook de etapa 2](notebooks/a2a-test.ipynb): ejecutar con el kernel de `.venv` y guardar salidas reales.
+- [Verificación](VERIFICACION.md): resultados de pruebas y pendientes de ejecución real.
+
+Christopher está en `src/agente_christopher/`, registrado en `langgraph.json`. El notebook selecciona `agente_christopher`.

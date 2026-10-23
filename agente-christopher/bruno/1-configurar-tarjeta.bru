@@ -1,0 +1,23 @@
+meta {
+  name: 1-configurar-tarjeta
+  type: http
+  seq: 1
+}
+
+patch {
+  url: {{base_url}}/assistants/{{assistant}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Christopher",
+    "description": "Especialista en evaluación de costos de programación y desarrollo de software. Estima, compara y explica costos en CLP con un tarifario simulado fijo, muestra 7 u 8 partidas y separa el trabajo inicial de los servicios recurrentes. No compra, contrata ni despliega; pide contexto cuando falta alcance."
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.name: eq Christopher
+}

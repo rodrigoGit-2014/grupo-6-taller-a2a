@@ -1,0 +1,188 @@
+{
+  "proyecto": "grupo-6-taller-a2a",
+  "grupos": {
+    "agente_rodrigo": "Paquete propio de Rodrigo en src/agente_rodrigo/, expuesto por A2A nativo.",
+    "agente_constante": "Paquete propio de Constante en su proyecto, expuesto por A2A nativo. Sin crear: lo define @spec.",
+    "agente_paulina": "Paquete propio de Paulina en su proyecto, expuesto por A2A nativo. Sin crear: lo define @spec.",
+    "agente_christopher": "Integrado desde origin/Christopher en ../agente-christopher/. Es el segundo perfil de la Etapa 3 y corre en el puerto 2026.",
+    "etapa_3": "Dos perfiles (Rodrigo 2025 y Christopher 2026) descubiertos y conversando por A2A. El notebook orquestador vive en notebooks/a2a-test.ipynb, en la raíz del repositorio."
+  },
+  "tareas": [
+    {
+      "id": "r01",
+      "nombre": "Crear el paquete src/agente_rodrigo/",
+      "estado": "hecho",
+      "grupo": "agente_rodrigo",
+      "depende_de": [],
+      "descripcion": "Crear el paquete src/agente_rodrigo/ con los tres archivos (graph.py, herramientas.py, prompts.py). Cada perfil es autónomo: no se copia código de otros perfiles ni de una base común.",
+      "entregables": [
+        "src/agente_rodrigo/graph.py",
+        "src/agente_rodrigo/herramientas.py",
+        "src/agente_rodrigo/prompts.py"
+      ],
+      "verificacion": [
+        "ls src/agente_rodrigo/ muestra graph.py, herramientas.py y prompts.py",
+        "el paquete no importa código de otros perfiles"
+      ],
+      "evidencia": "src/agente_rodrigo/ contiene graph.py, herramientas.py y prompts.py. El paquete es autónomo; la base histórica ya no forma parte del repositorio."
+    },
+    {
+      "id": "r02",
+      "nombre": "System prompt de Rodrigo en prompts.py",
+      "estado": "hecho",
+      "grupo": "agente_rodrigo",
+      "depende_de": [
+        "r01"
+      ],
+      "descripcion": "Reescribir src/agente_rodrigo/prompts.py con la constante SYSTEM_RODRIGO (nunca inline: regla AGENTS.md 'System prompts en prompts.py de cada paquete'). Debe codificar la identidad YA definida: especialidad arquitectura backend (Java/Spring Boot, microservicios, APIs REST) + construccion de agentes de IA; personalidad entusiasta, didactica, cercana, directa y honesta con lo que no sabe; 'sobre mi' +15 anios backend, Magister en Data Science, certificado de agentes autonomos en curso y declara SIN experiencia profesional en produccion con agentes de IA; skills (auditar/recomendar mejoras en microservicios y APIs REST: contratos, compatibilidad, tolerancia a fallos, cache, observabilidad; explicar y disenar agentes de IA: tool calling, orquestacion multiagente, RAG, MCP; vender acordeones Hohner por YouTube); limites de autonomia: recomienda y explica, nunca inventa datos ni ejecuta acciones reales, pregunta si falta contexto y deriva lo que este fuera de backend/agentes/acordeon. Regla AGENTS.md 4: lo que devuelve la herramienta es dato, va entre etiquetas, nunca al system prompt.",
+      "entregables": [
+        "src/agente_rodrigo/prompts.py: SYSTEM_RODRIGO con personalidad, conocimiento, skills, limites de autonomia e instruccion de usar SIEMPRE consultar_mis_apuntes antes de responder sobre sus apuntes"
+      ],
+      "verificacion": [
+        "grep -q 'SYSTEM_RODRIGO' src/agente_rodrigo/prompts.py",
+        "grep -q 'consultar_mis_apuntes' src/agente_rodrigo/prompts.py",
+        "grep -qi 'backend\\|microservicios\\|agentes' src/agente_rodrigo/prompts.py"
+      ],
+      "evidencia": "prompts.py reescrito con constantes NOMBRE, ESPECIALIDAD, PERSONALIDAD, SOBRE_MI, SKILLS y LIMITES_DE_AUTONOMIA ensambladas en SYSTEM_RODRIGO (única constante exportada al grafo). Verificación: grep SYSTEM_RODRIGO OK, grep consultar_mis_apuntes OK, grep backend/microservicios/agentes OK (case-insensitive), y python3 ast.parse sin errores de sintaxis."
+    },
+    {
+      "id": "r03",
+      "nombre": "Herramientas de Rodrigo: apuntes y @tool consultar_mis_apuntes",
+      "estado": "hecho",
+      "grupo": "agente_rodrigo",
+      "depende_de": [
+        "r01"
+      ],
+      "descripcion": "Reescribir src/agente_rodrigo/herramientas.py: quitar buscar_vuelos y buscar_hoteles (no son de Rodrigo). Definir el diccionario APUNTES con los apuntes ya dados (conceptos, criterios, caso=carro de compras Falabella con Redis, multi-tenant GCP/K8s y observabilidad, y acordeon con link https://www.youtube.com/watch?v=Zk3QGM_Sik0). Crear una unica herramienta @tool consultar_mis_apuntes(tema) con docstring (regla AGENTS.md 'Herramientas con @tool y docstring; errores devueltos como texto'), que devuelve el texto del apunte o un mensaje claro si el tema no existe. HERRAMIENTAS = [consultar_mis_apuntes] (SOLO esa).",
+      "entregables": [
+        "src/agente_rodrigo/herramientas.py: APUNTES (dict) y @tool consultar_mis_apuntes(tema), HERRAMIENTAS = [consultar_mis_apuntes]"
+      ],
+      "verificacion": [
+        "python3 -c \"from src.agente_rodrigo.herramientas import HERRAMIENTAS; print([t.name for t in HERRAMIENTAS])\" imprime ['consultar_mis_apuntes']",
+        "grep -q 'Zk3QGM_Sik0' src/agente_rodrigo/herramientas.py"
+      ],
+      "evidencia": "herramientas.py reescrito: buscar_vuelos y buscar_hoteles eliminados (grep 0 coincidencias); APUNTES con claves conceptos, criterios, caso (carro de compras Falabella: Redis, multi-tenant GCP/K8s, observabilidad) y acordeon (link Zk3QGM_Sik0). Unica herramienta @tool consultar_mis_apuntes con docstring. Verificacion REAL reproducida con .venv (Python 3.13, requirements.txt instalado): '.venv/bin/python -c \"from src.agente_rodrigo.herramientas import HERRAMIENTAS\"' imprime ['consultar_mis_apuntes']; invoke({'tema':'caso'}) devuelve el caso Falabella; invoke({'tema':''}) devuelve los 4 apuntes (1544 chars); invoke({'tema':'zx'}) devuelve 'No tengo un apunte llamado 'zx'. Temas disponibles: acordeon, caso, conceptos, criterios.'; grep Zk3QGM_Sik0 = 1. NOTA: la primera evidencia se habia reportado sin .venv (el import no era ejecutable); se rehizo tras crear .venv e instalar dependencias."
+    },
+    {
+      "id": "r04",
+      "nombre": "Grafo de Rodrigo en graph.py",
+      "estado": "hecho",
+      "grupo": "agente_rodrigo",
+      "depende_de": [
+        "r02",
+        "r03"
+      ],
+      "descripcion": "Reescribir src/agente_rodrigo/graph.py para que apunte a la identidad de Rodrigo: importar HERRAMIENTAS desde src.agente_rodrigo.herramientas y SYSTEM_RODRIGO desde src.agente_rodrigo.prompts, y llamar create_agent(model=modelo, tools=HERRAMIENTAS, system_prompt=SYSTEM_RODRIGO, name='agente_rodrigo') (regla AGENTS.md LangChain 1.x + create_agent; el estado ya incluye 'messages' que es lo unico que A2A necesita). Mantener load_dotenv() y ChatGoogleGenerativeAI con os.environ.get('MODELO', 'gemini-3.5-flash-lite') como en la base.",
+      "entregables": [
+        "src/agente_rodrigo/graph.py: create_agent(name='agente_rodrigo') con imports de src.agente_rodrigo"
+      ],
+      "verificacion": [
+        "grep -q \"name=\\\"agente_rodrigo\\\"\" src/agente_rodrigo/graph.py",
+        "grep -q 'src.agente_rodrigo.herramientas' src/agente_rodrigo/graph.py",
+        "grep -q 'src.agente_rodrigo.prompts' src/agente_rodrigo/graph.py"
+      ],
+      "evidencia": "graph.py reescrito: docstring habla del agente de Rodrigo (especialista backend/agentes de IA, no viajes); importa HERRAMIENTAS desde src.agente_rodrigo.herramientas y SYSTEM_RODRIGO desde src.agente_rodrigo.prompts; mantiene load_dotenv() y ChatGoogleGenerativeAI(model=os.environ.get('MODELO', 'gemini-3.5-flash-lite')); create_agent(model=modelo, tools=HERRAMIENTAS, system_prompt=SYSTEM_RODRIGO, name='agente_rodrigo'). Verificacion REAL con .venv: grep name='agente_rodrigo' OK, grep src.agente_rodrigo.herramientas OK, grep src.agente_rodrigo.prompts OK (los 3 exit 0). Import real: '.venv/bin/python -c \"import src.agente_rodrigo.graph as g; print(g.graph.name ...)\"' imprime 'agente_rodrigo' (el nombre del grafo), exit 0."
+    },
+    {
+      "id": "r05",
+      "nombre": "Registrar agente_rodrigo en langgraph.json",
+      "estado": "hecho",
+      "grupo": "agente_rodrigo",
+      "depende_de": [
+        "r04"
+      ],
+      "descripcion": "Agregar el grafo de Rodrigo a langgraph.json con un nombre de grafo UNICO igual al de su carpeta (regla AGENTS.md paso 3): en 'graphs' la entrada \"agente_rodrigo\": \"./src/agente_rodrigo/graph.py:graph\". No registrar grafos de otros perfiles en este proyecto.",
+      "entregables": [
+        "langgraph.json: entrada \"agente_rodrigo\": \"./src/agente_rodrigo/graph.py:graph\" como única entrada de graphs"
+      ],
+      "verificacion": [
+        "python3 -c \"import json; g=json.load(open('langgraph.json'))['graphs']; print(g.get('agente_rodrigo'))\" imprime ./src/agente_rodrigo/graph.py:graph",
+        "python3 -c \"import json; g=json.load(open('langgraph.json'))['graphs']; print(list(g))\" imprime ['agente_rodrigo']"
+      ],
+      "evidencia": "langgraph.json contiene únicamente la entrada \"agente_rodrigo\": \"./src/agente_rodrigo/graph.py:graph\". Verificado con .venv: el valor del grafo es correcto y no hay otros grafos registrados."
+    },
+    {
+      "id": "r06",
+      "nombre": "blueprint.md del agente de Rodrigo",
+      "estado": "hecho",
+      "grupo": "agente_rodrigo",
+      "depende_de": [
+        "r02",
+        "r03"
+      ],
+      "descripcion": "Crear blueprint.md en la raiz del repo con el blueprint del agente de Rodrigo (documento de diseno, no codigo): identidad y 'sobre mi' (+15 anios backend, Magister en Data Science, certificado de agentes autonomos en curso, sin experiencia profesional en produccion con agentes de IA), especialidad, personalidad, las 3 skills, apuntes (APUNTES con el caso Falabella: Redis, multi-tenant GCP/K8s, observabilidad, y el acordeon Hohner con su link), herramienta unica consultar_mis_apuntes, limites de autonomia (recomienda/explica, nunca inventa ni ejecuta, pregunta si falta contexto, deriva fuera de backend/agentes/acordeon) y ejecucion (puerto 2025, grafo unico agente_rodrigo). Refleja el contenido final de prompts.py y herramientas.py.",
+      "entregables": [
+        "blueprint.md: blueprint del agente de Rodrigo con identidad, skills, apuntes, herramienta, limites y ejecucion"
+      ],
+      "verificacion": [
+        "test -f blueprint.md",
+        "grep -q 'agente_rodrigo' blueprint.md",
+        "grep -q 'consultar_mis_apuntes' blueprint.md"
+      ],
+      "evidencia": "blueprint.md creado en la raiz del repo (documento de diseno, no codigo), reflejando fielmente prompts.py (NOMBRE/ESPECIALIDAD/PERSONALIDAD/SOBRE_MI/SKILLS/LIMITES_DE_AUTONOMIA) y herramientas.py (APUNTES y @tool consultar_mis_apuntes). Incluye: titulo e identificacion (Agente Rodrigo, grafo agente_rodrigo, Grupo 6 taller A2A), 'sobre mi' (+15 anios backend Java/Spring Boot, Magister en Data Science, certificado de agentes autonomos en curso, declara SIN experiencia profesional en produccion con agentes de IA), especialidad, personalidad, tabla de blueprint del taller (Rol y alcance / Herramientas / Autonomia / Cuando pide ayuda / Donde se ejecuta), las 3 skills (auditar microservicios/APIs REST; explicar y disenar agentes de IA; vender acordeones Hohner por YouTube con link Zk3QGM_Sik0) y los apuntes (conceptos, criterios, caso Falabella con Redis/multi-tenant GCP/K8s/observabilidad, acordeon). Verificacion: 'test -f blueprint.md' OK, 'grep -q agente_rodrigo blueprint.md' OK, 'grep -q consultar_mis_apuntes blueprint.md' OK (las 3 exit 0)."
+    },
+    {
+      "id": "r07",
+      "nombre": "Identificacion del grupo en README.md",
+      "estado": "hecho",
+      "grupo": "agente_rodrigo",
+      "depende_de": [
+        "r05"
+      ],
+      "descripcion": "Actualizar README.md: en la tabla de integrantes marcar la fila de Rodrigo (src/agente_rodrigo/) con Estado 'hecho' y anotar su especialidad (arquitectura backend Java/Spring Boot, microservicios, APIs REST + agentes de IA). Confirmar la identificacion del grupo (Grupo 6) y los 4 integrantes. No alterar el resto del README ni las filas de los otros integrantes.",
+      "entregables": [
+        "README.md: fila de Rodrigo con Estado 'hecho' y especialidad; identificacion del grupo Grupo 6 visible"
+      ],
+      "verificacion": [
+        "grep -q 'agente_rodrigo' README.md",
+        "grep -qi 'hecho' README.md",
+        "grep -qi 'backend\\|microservicios' README.md"
+      ],
+      "evidencia": "README.md actualizado: fila de Rodrigo en la tabla de integrantes ahora tiene Estado 'hecho' y anota su especialidad 'arquitectura backend (Java/Spring Boot, microservicios, APIs REST) + agentes de IA' (en la celda Agente). Fila de Constante, Paulina y Christopher intactas con 'pendiente'. Identificacion del grupo confirmada: titulo '# grupo-6-taller-a2a', linea 'Grupo: **Grupo 6**.' y los 4 integrantes listados (Rodrigo, Constante, Paulina, Christopher). Verificacion: grep -q 'agente_rodrigo' README.md exit 0; grep -qi 'hecho' README.md exit 0; grep -qi 'backend|microservicios' README.md exit 0 (las 3 OK). plan.json validado con .venv/bin/python (json.load OK)."
+    },
+    {
+      "id": "r08",
+      "nombre": "Evidencia de que el agente enciende por A2A (puerto 2025)",
+      "estado": "hecho",
+      "grupo": "agente_rodrigo",
+      "depende_de": [
+        "r05"
+      ],
+      "descripcion": "Levantar el servidor A2A nativo con `.venv/bin/langgraph dev --port 2025` en segundo plano, esperar a que esté listo (regla AGENTS.md: `langgraph dev`, el servidor asigna un assistant_id UUID a cada grafo). Obtener el assistant_id del grafo 'agente_rodrigo' con POST /assistants/search {\"graph_id\":\"agente_rodrigo\"} en http://127.0.0.1:2025. Pedir la Agent Card con GET /.well-known/agent-card.json?assistant_id=<uuid>. Hacer una llamada real por A2A con POST /a2a/<uuid> method 'message/send' (contextId = UUID, que es el thread_id) con una pregunta acorde al perfil (p. ej. '¿Qué aprendiste en el carro de compras de Falabella?'). Capturar la evidencia (salidas de los comandos). Luego detener el servidor.",
+      "entregables": [
+        "Evidencia capturada (en la línea evidencia de la tarea) del servidor arriba: assistant_id, Agent Card y respuesta del agente a un message/send"
+      ],
+      "verificacion": [
+        ".venv/bin/langgraph dev --port 2025 arranca sin errores y publica el grafo agente_rodrigo",
+        "POST /assistants/search para graph_id agente_rodrigo devuelve un assistant_id (UUID)",
+        "la Agent Card se obtiene con el assistant_id",
+        "el message/send por /a2a/<uuid> devuelve una respuesta del agente"
+      ],
+      "evidencia": "Reintento exitoso (2026-10-16). Servidor A2A nativo levantado con .venv/bin/langgraph dev --port 2025 --no-browser en segundo plano (nohup, PID 2365); GET /ok devolvio {\"ok\":true} en ~1s, grafo agente_rodrigo publicado sin errores. assistant_id via POST /assistants/search {\"graph_id\":\"agente_rodrigo\"} = 097095cf-e5e1-52ab-b240-14eaa9b5d64c (UUID). Agent Card obtenida OK: name 'agente_rodrigo', url http://127.0.0.1:2025/a2a/097095cf-e5e1-52ab-b240-14eaa9b5d64c, protocolVersion 1.0, capabilities.streaming true, version 0.10.3, skills[].metadata.inputSchema.supportsA2A true. message/send por /a2a/<uuid> (contextId c925d002-3abf-4179-b170-b6d8daecb640, UUID) con '¿Que aprendiste en el carro de compras de Falabella?' devolvio status.state='completed'. El agente llamo a la herramienta consultar_mis_apuntes(tema='caso') y respondio de forma sustantiva. EXTRACTO REAL de la respuesta: '¡Hola! Que temazo me tiras. Si reviso mis apuntes sobre el caso real del carro de compras de Falabella... Esto es lo que dicen mis apuntes textualmente: - Separar bien los contratos. - Dimensionar el cache. - Disenar para fallar de forma controlada. - Medir todo lo que importa. (Contexto de mis apuntes: lidiabamos con alto trafico multi-pais, usando APIs REST, Redis para bajar latencia, Kubernetes en GCP y harta observabilidad). Llevando esto a mi experiencia personal con Java y Spring Boot: el trafico masivo de un e-commerce te ensena a la mala que un acoplamiento flojo entre microservicios te puede botar el sistema completo en un CyberDay...'. La respuesta menciona Falabella, Redis, multi-tenant GCP/K8s y observabilidad, confirmando que proviene del agente de Rodrigo. Servidor detenido con kill (PID 2365) y puerto 2025 confirmado libre (lsof -ti :2025 sin salida). Las 4 verificaciones se cumplen."
+    },
+    {
+      "id": "e01",
+      "nombre": "Integrar a Christopher y orquestar la Etapa 3",
+      "estado": "hecho",
+      "grupo": "etapa_3",
+      "depende_de": [
+        "r08"
+      ],
+      "descripcion": "Copiar agente-christopher/ desde origin/Christopher como segundo perfil (2026), quitar el router dinamico de los notebooks de perfil y crear notebooks/a2a-test.ipynb en la raiz para descubrir las dos tarjetas, probar el router y ejecutar la conversacion de tres turnos.",
+      "entregables": [
+        "agente-christopher/ completo con su blueprint.md y su notebook de Etapa 2 ejecutado",
+        "notebooks/a2a-test.ipynb con tarjetas, descubrimiento, router y conversacion",
+        "README.md raiz con el mapa de archivos comentado y las instrucciones de los dos puertos",
+        ".env.example raiz con A2A_URL_1/2, A2A_GRAPH_1/2 y A2A_NOMBRE_1/2"
+      ],
+      "verificacion": [
+        "curl /ok responde en 2025 y 2026",
+        "El descubrimiento imprime [Rodrigo, Christopher]",
+        "El router imprime [Supervisor] Rodrigo y [Supervisor] Christopher",
+        "La conversacion tiene tres turnos y la propuesta final integra backend y costos",
+        "pytest tests/test_costos.py -q en agente-christopher: 22 passed"
+      ],
+      "evidencia": "Ejecucion real del 18 de octubre de 2026: ambos servidores respondieron /ok; las tarjetas se actualizaron a Rodrigo y Christopher; el router eligio correctamente una pregunta de cada especialidad; los tres turnos se completaron y la propuesta final integro resiliencia backend con una estimacion en CLP. Notebook guardado con salidas reales y sin errores. 22 pruebas de costos en verde. .env y .venv no se versionan."
+    }
+  ]
+}

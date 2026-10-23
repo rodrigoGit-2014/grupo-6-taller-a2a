@@ -1,0 +1,85 @@
+{
+  "proyecto": "agente-christopher-a2a",
+  "grupos": {
+    "christopher-etapa1": "Personalización autorizada por el perfil. El alcance actual es solo el agente especialista de este proyecto.",
+    "christopher-organizacion": "Paquete propio del perfil y documentación consolidada. Solicitado explícitamente por el usuario."
+  },
+  "tareas": [
+    {
+      "id": "c01",
+      "grupo": "christopher-etapa1",
+      "nombre": "Perfil, blueprint y copia sin swarm",
+      "estado": "hecho",
+      "depende_de": [],
+      "entregables": [
+        "blueprint.md",
+        "README.md",
+        "GUIA_CHRISTOPHER.md"
+      ],
+      "verificacion": [
+        "Comprobar blueprint y ausencia de src/swarm"
+      ],
+      "evidencia": "Perfil y criterios acordados con Christopher; blueprint guardado y swarm omitido de la copia."
+    },
+    {
+      "id": "c02",
+      "grupo": "christopher-etapa1",
+      "nombre": "Herramientas y grafo de costos",
+      "estado": "hecho",
+      "depende_de": [
+        "c01"
+      ],
+      "entregables": [
+        "src/agente_christopher/prompts.py",
+        "src/agente_christopher/herramientas.py",
+        "src/agente_christopher/graph.py",
+        "langgraph.json",
+        "tests/test_costos.py"
+      ],
+      "verificacion": [
+        ".venv/Scripts/python.exe -m pytest tests/test_costos.py -q"
+      ],
+      "evidencia": "22 tests de costos pasaron; caso base 847000 CLP; alternativa 1007000 CLP; diferencia 160000 CLP. Grafo CompiledStateGraph con messages y recursion_limit=30 comprobado sin llamada al modelo usando marcador temporal de clave. pip check sin dependencias rotas."
+    },
+    {
+      "id": "c03",
+      "grupo": "christopher-etapa1",
+      "nombre": "Arranque y evidencia de entrega",
+      "estado": "pendiente",
+      "depende_de": [
+        "c02"
+      ],
+      "entregables": [
+        "evidencia de terminal y documento de entrega"
+      ],
+      "verificacion": [
+        "langgraph dev --port 2025; capturar terminal con grafo registrado"
+      ],
+      "nota": "Se intentó iniciar langgraph dev --port 2025. La carga se detuvo con el mensaje explícito de falta de GOOGLE_API_KEY. Pendientes clave real, arranque exitoso, captura e identificación del grupo/documento de entrega."
+    },
+    {
+      "id": "c04",
+      "grupo": "christopher-organizacion",
+      "nombre": "Consolidar la documentación del perfil",
+      "estado": "hecho",
+      "depende_de": [
+        "c02"
+      ],
+      "entregables": [
+        "src/agente_christopher/",
+        "langgraph.json",
+        "README.md",
+        "blueprint.md",
+        "GUIA_CHRISTOPHER.md",
+        "AGENTS.md",
+        "tests/test_costos.py"
+      ],
+      "verificacion": [
+        ".venv/Scripts/python.exe -m pytest tests/test_costos.py -q",
+        "Importar el grafo agente_christopher sin llamadas al modelo y comprobar messages",
+        "Comprobar igualdad de las dos copias de blueprint.md"
+      ],
+      "evidencia": "22 tests de costos pasaron. El grafo agente_christopher compila con messages. Blueprint sincronizado. Sin consulta real al modelo."
+    }
+  ]
+}

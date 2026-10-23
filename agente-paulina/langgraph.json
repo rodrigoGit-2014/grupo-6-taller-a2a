@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "agente_paulina": "./src/agente_paulina/graph.py:graph"
+  },
+  "env": ".env"
+}

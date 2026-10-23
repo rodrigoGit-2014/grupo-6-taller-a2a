@@ -1,0 +1,23 @@
+meta {
+  name: 1-configurar-tarjeta
+  type: http
+  seq: 1
+}
+
+patch {
+  url: {{base_url}}/assistants/{{assistant}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Rodrigo",
+    "description": "Especialista en arquitectura backend (Java/Spring Boot, microservicios y APIs REST: contratos, resiliencia, caché y observabilidad) y en diseño de agentes de IA (tool calling, orquestación multiagente, RAG y MCP). Explica con honestidad lo que sabe y lo que no; no inventa datos ni ejecuta acciones reales."
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.name: eq Rodrigo
+}

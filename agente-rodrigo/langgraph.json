@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "agente_rodrigo": "./src/agente_rodrigo/graph.py:graph"
+  },
+  "env": ".env"
+}

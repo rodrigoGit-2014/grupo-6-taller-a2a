@@ -1,0 +1,23 @@
+meta {
+  name: 1-configurar-tarjeta
+  type: http
+  seq: 1
+}
+
+patch {
+  url: {{base_url}}/assistants/{{assistant}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Agente Paulina",
+    "description": "Especialista en estrategia y valor de negocio de IA y datos. Define el caso de negocio (problema, KPIs y beneficio esperado), evalúa el impacto de una iniciativa con el KPI que corresponda (mermas, tiempos de proceso, quiebres de stock, errores, horas ahorradas, satisfacción) y, cuando hay costo y beneficio monetario confiables, también su retorno. Propone un roadmap por fases partiendo por quick wins. No diseña arquitectura ni calcula costos de desarrollo; usa los aportes de otros especialistas como datos."
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.name: eq Agente Paulina
+}
