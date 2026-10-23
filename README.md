@@ -1,264 +1,299 @@
-# Grupo 6 · Taller A2A · Integración de dos especialistas
+# Grupo 6 · Taller A2A · Tres especialistas
 
-Taller 1 (Módulo 2): **mi agente especialista habla por A2A**. Este repositorio reúne dos perfiles
+Taller 1 (Módulo 2): **mi agente especialista habla por A2A**. Este repositorio reúne tres perfiles
 locales que se descubren y conversan por el protocolo A2A:
 
 | Perfil | Especialidad | Carpeta | Servidor | Grafo |
 |---|---|---|---|---|
 | Rodrigo | Arquitectura backend y agentes de IA | `agente-rodrigo/` | `http://127.0.0.1:2025` | `agente_rodrigo` |
 | Christopher | Costos de programación y software | `agente-christopher/` | `http://127.0.0.1:2026` | `agente_christopher` |
+| Paulina | Estrategia y valor de negocio de IA y datos | `agente-paulina/` | `http://127.0.0.1:2027` | `agente_paulina` |
 
-La Etapa 3 no importa código de un agente dentro del otro: el notebook orquestador los descubre por
-HTTP/A2A, actualiza sus tarjetas y les pasa mensajes conservando un `contextId` UUID por agente.
+La Etapa 3 **no importa código de un agente dentro de otro**: el notebook orquestador los descubre por
+HTTP/A2A, actualiza sus tarjetas y les pasa mensajes conservando un `contextId` UUID por agente. Cada
+respuesta ajena se entrega entre etiquetas y se trata como **dato**, nunca como instrucción.
 
 ## Mapa del repositorio
 
 ```text
 grupo-6-taller-a2a/
-├── README.md                          # Esta guía: estructura, arranque y evidencias.
-├── .env.example                       # Plantilla de claves y URLs (el .env real no se versiona).
-├── .gitignore                         # Ignora .env, .venv, cachés y docs locales.
+├── README.md                          # Esta guía: estructura, arranque y entrega.
+├── .env.example                       # Plantilla de claves y URLs (sin claves reales).
+├── .gitignore                         # Ignora .env, .venv, cachés y docs no entregables.
 │
-├── agente-rodrigo/                    # Perfil 1 · mi-agente · servidor 2025.
-│   ├── README.md                      # Identidad y arranque del perfil de Rodrigo.
-│   ├── AGENTS.md                      # Reglas del taller para este perfil.
-│   ├── blueprint.md                   # Diseño del agente (identidad, skills, límites).
+├── agente-rodrigo/                    # Perfil 1 · Rodrigo · servidor 2025.
+│   ├── README.md / AGENTS.md / blueprint.md
 │   ├── langgraph.json                 # Registra agente_rodrigo y la base agente_viajes.
-│   ├── pyproject.toml                 # Dependencias y metadatos del proyecto.
-│   ├── requirements.txt               # Dependencias para instalar el entorno.
-│   ├── .env.example                   # Variables del perfil (sin claves).
-│   ├── src/
-│   │   ├── agente_rodrigo/            # Agente especialista de Rodrigo.
-│   │   │   ├── prompts.py             # SYSTEM_RODRIGO: personalidad y reglas.
-│   │   │   ├── herramientas.py        # @tool consultar_mis_apuntes y sus apuntes.
-│   │   │   └── graph.py               # create_agent(...) + name="agente_rodrigo".
-│   │   └── agente_viajes/             # Base del taller (vuelos y hoteles). SE CONSERVA.
-│   ├── notebooks/
-│   │   └── a2a-test.ipynb             # Etapa 2: preguntas, memoria y A2A + tarjeta.
+│   ├── src/agente_rodrigo/            # prompts.py, herramientas.py y graph.py.
+│   ├── notebooks/a2a-test.ipynb       # Etapa 2: pruebas y tarjeta de Rodrigo.
 │   ├── tests/                         # Pruebas del A2A nativo y de la base.
 │   └── bruno/                         # Colección HTTP para tarjeta y message/send.
 │
-├── agente-christopher/                # Perfil 2 · segundo-agente · servidor 2026.
-│   ├── README.md                      # Identidad, cálculos y arranque de Christopher.
-│   ├── GUIA_CHRISTOPHER.md            # Guía de instalación y verificación.
-│   ├── VERIFICACION.md                # Evidencias y límites de las pruebas.
-│   ├── blueprint.md                   # Diseño del agente de costos.
+├── agente-christopher/                # Perfil 2 · Christopher · servidor 2026.
+│   ├── README.md / AGENTS.md / blueprint.md / VERIFICACION.md
 │   ├── langgraph.json                 # Registra agente_christopher y la base agente_viajes.
-│   ├── src/
-│   │   ├── agente_christopher/        # Agente especialista de costos.
-│   │   │   ├── prompts.py             # SYSTEM_CHRISTOPHER: identidad y reglas.
-│   │   │   ├── herramientas.py        # Apuntes, tarifario simulado y cálculos.
-│   │   │   └── graph.py               # create_agent(...) + name="agente_christopher".
-│   │   ├── agente_viajes/             # Base del taller. SE CONSERVA.
-│   │   └── consumidor/                # Material base conservado; fuera de la Etapa 3.
-│   ├── notebooks/
-│   │   └── a2a-test.ipynb             # Etapa 2 de Christopher + tarjeta.
-│   ├── tests/
-│   │   ├── test_costos.py             # 22 pruebas de cálculo, sin modelo ni servidor.
-│   │   └── test_a2a_viajes.py         # Pruebas de la base de viajes.
+│   ├── src/agente_christopher/        # prompts.py, herramientas.py y graph.py.
+│   ├── notebooks/a2a-test.ipynb       # Etapa 2: pruebas y tarjeta de Christopher.
+│   ├── tests/test_costos.py           # 22 pruebas de cálculo, sin modelo ni servidor.
+│   └── bruno/                         # Colección HTTP original.
+│
+├── agente-paulina/                    # Perfil 3 · Paulina · servidor 2027.
+│   ├── README.md / AGENTS.md / blueprint.md
+│   ├── langgraph.json                 # Registra agente_paulina y la base agente_viajes.
+│   ├── src/agente_paulina/            # prompts.py, herramientas.py y graph.py.
+│   ├── notebooks/a2a-test.ipynb       # Etapa 2: pruebas y tarjeta de Paulina.
+│   ├── tests/                         # Retorno, impacto en KPI, apuntes y A2A.
 │   └── bruno/                         # Colección HTTP original.
 │
 ├── notebooks/
-│   └── a2a-test.ipynb                 # ETAPA 3: descubrir, router y conversación de 3 turnos.
+│   └── a2a-test.ipynb                 # ETAPA 3: descubrimiento, router y dos conversaciones.
 │
-└── docs/
-    └── taller-a2a-specificacion.png   # Especificación local (ignorada por git).
+├── docs/entrega/
+│   └── documento-entrega.md           # Documento de entrega y comparación para clase.
+│
+└── scripts/
+    ├── verificar_remoto.sh            # Verificación de una tarjeta remota.
+    └── empaquetar_entrega.bat         # Genera el ZIP reproducible de entrega.
 ```
 
 ### Por qué cada notebook está donde está
 
 - `agente-*/notebooks/a2a-test.ipynb` prueba **un solo perfil**: personalidad, conocimientos,
   memoria y envío A2A. Ahí vive la celda “Preparar mi tarjeta”.
-- `notebooks/a2a-test.ipynb` es el **orquestador compartido** de la Etapa 3. Descubre los dos
-  servidores, prueba el router con una pregunta de cada especialidad y ejecuta la conversación
-  Rodrigo → Christopher → Rodrigo.
-- El orquestador no importa `src/` de ninguno de los dos proyectos; solo usa HTTP/A2A. Por eso puede
-  vivir en la raíz sin acoplarse a un perfil.
+- `notebooks/a2a-test.ipynb` es el **orquestador compartido** de la Etapa 3. Descubre los tres
+  servidores, prueba el router con una pregunta de cada especialidad y ejecuta dos conversaciones:
+  **Paulina → Christopher → Paulina** y **Paulina → Rodrigo → Christopher → Paulina**.
+- El orquestador no importa `src/` de ningún perfil; solo usa HTTP/A2A. Por eso vive en la raíz sin
+  acoplarse a un proyecto.
 
 ## Requisitos
 
-- Python 3.11 o superior.
-- Una `GOOGLE_API_KEY` válida para el modelo configurado.
-- Dos terminales (una por servidor).
-- El `.venv` de `agente-rodrigo` sirve para ejecutar el notebook orquestador. Cada perfil puede
-  tener su propio `.venv` si se instala por separado.
+- Python 3.12.
+- Una `GOOGLE_API_KEY` válida para Gemini.
+- Tres terminales (una por servidor) para la ejecución completa.
+- Opcional: `DEEPSEEK_API_KEY` para el respaldo si Gemini falla por cuota o saldo.
 
 ## Configuración
 
-1. Crea el entorno de Rodrigo si aún no existe:
+1. Crea el entorno de cada perfil si aún no existe:
 
-   ```bash
+   ```powershell
    cd agente-rodrigo
-   python3 -m venv .venv
-   source .venv/bin/activate            # Windows: .venv\Scripts\activate
-   pip install -r requirements.txt
+   py -3.12 -m venv .venv
+   .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+   cd ..\agente-christopher
+   py -3.12 -m venv .venv
+   .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+   cd ..\agente-paulina
+   py -3.12 -m venv .venv
+   .\.venv\Scripts\python.exe -m pip install -r requirements.txt
    ```
+
+   El kernel recomendado para el notebook raíz es el `.venv` de `agente-paulina`, que trae las
+   dependencias del orquestador.
 
 2. Copia las plantillas y completa la clave **solo en local**:
 
-   ```bash
-   cp .env.example .env                                   # notebook de Etapa 3
-   cp agente-rodrigo/.env.example agente-rodrigo/.env     # servidor 2025
-   cp agente-christopher/.env.example agente-christopher/.env  # servidor 2026
-   # edita los tres .env y pega GOOGLE_API_KEY
+   ```powershell
+   Copy-Item .env.example .env
+   Copy-Item agente-rodrigo\.env.example agente-rodrigo\.env
+   Copy-Item agente-christopher\.env.example agente-christopher\.env
+   Copy-Item agente-paulina\.env.example agente-paulina\.env
+   # edita los cuatro .env y pega GOOGLE_API_KEY
    ```
 
-   El `.env` de la raíz lo usa el notebook de Etapa 3. Cada servidor lee además su propio
-   `agente-rodrigo/.env` o `agente-christopher/.env`.
+   El `.env` de la raíz lo usa el notebook de Etapa 3. Cada servidor lee además su propio `.env`.
+   Ningún `.env` se versiona ni se incluye en el ZIP.
 
-3. Variables de la Etapa 3:
+3. Variables principales del notebook:
 
    | Variable | Valor por defecto | Uso |
    |---|---|---|
    | `A2A_URL_1` | `http://127.0.0.1:2025` | Servidor de Rodrigo. |
    | `A2A_GRAPH_1` | `agente_rodrigo` | Grafo que se busca en el servidor 1. |
-   | `A2A_NOMBRE_1` | `Rodrigo` | Nombre que se publica en la tarjeta. |
+   | `A2A_NOMBRE_1` | `Rodrigo` | Nombre que usa el router. |
    | `A2A_URL_2` | `http://127.0.0.1:2026` | Servidor de Christopher. |
    | `A2A_GRAPH_2` | `agente_christopher` | Grafo que se busca en el servidor 2. |
-   | `A2A_NOMBRE_2` | `Christopher` | Nombre que se publica en la tarjeta. |
+   | `A2A_NOMBRE_2` | `Christopher` | Nombre que usa el router. |
+   | `A2A_URL_3` | `http://127.0.0.1:2027` | Servidor de Paulina. |
+   | `A2A_GRAPH_3` | `agente_paulina` | Grafo que se busca en el servidor 3. |
+   | `A2A_NOMBRE_3` | `Paulina` | Nombre que usa el router. |
+   | `A2A_NOMBRE_TARJETA_3` | `Agente Paulina` | Nombre visible de la tarjeta (opcional). |
+   | `A2A_ASSISTANT_ID_n` | vacío | UUID fijado; vacío = se descubre con `/assistants/search`. |
+   | `A2A_GESTIONAR_TARJETA_n` | `1` | `1` actualiza la tarjeta local; `0` no toca una tarjeta remota. |
 
-## Levantar los dos servidores
+## Respaldo opcional a DeepSeek
+
+Los tres perfiles usan **Gemini como modelo principal, sin cambios**. Si existe
+`DEEPSEEK_API_KEY`, cada `graph.py` agrega `ChatDeepSeek` como respaldo mediante
+`ModelFallbackMiddleware`; el router del notebook hace lo mismo con `with_fallbacks`.
+
+Es **opcional**: sin `DEEPSEEK_API_KEY`, todo funciona solo con Gemini. Variables:
+
+| Variable | Valor por defecto | Uso |
+|---|---|---|
+| `DEEPSEEK_API_KEY` | vacía | Si está definida, activa el respaldo en los tres agentes y en el router. |
+| `MODELO_RESPALDO` | `deepseek-chat` | Modelo de DeepSeek usado como respaldo. |
+
+En la ejecución de referencia, Gemini devolvió `402 Payment Required` y el respaldo DeepSeek
+respondió correctamente. El notebook no falla si el respaldo está configurado.
+
+## Levantar los tres servidores
 
 Terminal 1 · Rodrigo (2025):
 
-```bash
+```powershell
 cd agente-rodrigo
-.venv/bin/langgraph dev --port 2025 --no-browser
+.\.venv\Scripts\langgraph.exe dev --port 2025 --no-browser
 ```
 
-Terminal 2 · Christopher (2026). Puedes usar el `.venv` de Rodrigo o crear el propio:
+Terminal 2 · Christopher (2026):
 
-```bash
+```powershell
 cd agente-christopher
-
-# Opción rápida: reutilizar el entorno de Rodrigo.
-../agente-rodrigo/.venv/bin/langgraph dev --port 2026 --no-browser
-
-# Opción recomendada si vas a ejecutar su notebook de Etapa 2:
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/langgraph dev --port 2026 --no-browser
+.\.venv\Scripts\langgraph.exe dev --port 2026 --no-browser
 ```
 
-El notebook de Christopher verifica que el kernel sea su propio `.venv`; para la Etapa 3 puedes
-usar el kernel de `agente-rodrigo/.venv` desde el notebook raíz.
+Terminal 3 · Paulina (2027):
 
-Cada servidor publica su propia Agent Card y asigna un `assistant_id` UUID a cada grafo. El
-`assistant_id` se descubre en tiempo de ejecución; no se escribe a mano en el notebook.
-
-## Conectar con el agente de un compañero por Cloudflare
-
-Si Christopher corre en otra máquina, **no levantes el servidor 2026**. Deja activo solo el
-servidor de Rodrigo en 2025 y configura el perfil 2 en el `.env` de la raíz:
-
-```dotenv
-A2A_URL_2=https://assume-setup-see-total.trycloudflare.com
-A2A_GRAPH_2=agente_christopher
-A2A_NOMBRE_2=Christopher
-A2A_ASSISTANT_ID_2=b71a76f3-1a4f-5263-a63d-b005bf9e46e1
-A2A_GESTIONAR_TARJETA_2=0
+```powershell
+cd agente-paulina
+.\.venv\Scripts\langgraph.exe dev --port 2027 --no-browser
 ```
 
-- `A2A_ASSISTANT_ID_2` evita depender de `/assistants/search` en el servidor remoto.
-- `A2A_GESTIONAR_TARJETA_2=0` indica que **no se modifica** la tarjeta de tu compañero.
-- La descripción que usa el router sigue siendo la de Christopher; si quieres otra, define
-  `A2A_DESCRIPCION_2`.
-- El notebook descarga la tarjeta por HTTPS y, si la tarjeta anuncia `localhost`, reemplaza la
-  dirección de la interfaz por la URL pública del túnel.
+En Linux/macOS usa `.venv/bin/langgraph`. Si un perfil no tiene `.venv` propio, puedes reutilizar
+el de otro entorno que tenga sus dependencias, pero no mezcles `.env` ni claves.
 
-Comprueba la conexión antes de ejecutar el notebook:
+Cada servidor publica su Agent Card y asigna un `assistant_id` UUID a cada grafo. El notebook lo
+descubre en tiempo de ejecución; no se escribe a mano salvo en modo remoto.
 
-```bash
-./scripts/verificar_remoto.sh
+Comprobación rápida:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:2025/ok
+Invoke-RestMethod http://127.0.0.1:2026/ok
+Invoke-RestMethod http://127.0.0.1:2027/ok
 ```
 
-Debe imprimir el `name`, la `description` y la interfaz JSONRPC. Si aparece
-`Cloudflare error 1033`, el túnel no está activo o la URL cambió: pide la URL actual y actualiza
-`A2A_URL_2`. Los quick tunnels de Cloudflare son efímeros y cambian al reiniciar `cloudflared`.
+## Ejecutar el notebook orquestador
 
-Después ejecuta `notebooks/a2a-test.ipynb` como siempre. El router llamará a Rodrigo en 2025 y a
-Christopher por el túnel. También puedes levantar 2025 y 2026 en local y usar el bloque local de
-`.env.example`; el notebook funciona en ambos modos.
-
-Comprobación rápida de los servidores locales:
-
-```bash
-curl -s http://127.0.0.1:2025/ok
-curl -s http://127.0.0.1:2026/ok
-
-curl -s -X POST http://127.0.0.1:2025/assistants/search \
-  -H 'Content-Type: application/json' -d '{"graph_id":"agente_rodrigo"}'
-curl -s -X POST http://127.0.0.1:2026/assistants/search \
-  -H 'Content-Type: application/json' -d '{"graph_id":"agente_christopher"}'
-```
-
-## Ejecutar los notebooks
-
-### Etapa 2 · cada perfil por separado
-
-- Abre `agente-rodrigo/notebooks/a2a-test.ipynb` contra el servidor 2025.
-- Abre `agente-christopher/notebooks/a2a-test.ipynb` contra el servidor 2026. Si el kernel no tiene
-  `A2A_PORT`, define `A2A_PORT=2026` antes de ejecutar.
-- Ejecuta las celdas en orden y guarda las salidas. La última celda de cada notebook prepara la
-  tarjeta que leerá el supervisor.
-
-### Etapa 3 · conversación conjunta
-
-1. Deja los dos servidores arriba.
-2. Abre `notebooks/a2a-test.ipynb` con el kernel de `agente-rodrigo/.venv`.
-3. Ejecuta todas las celdas en orden. El notebook:
-   - actualiza las tarjetas de Rodrigo y Christopher;
-   - descubre ambos agentes y crea un cliente A2A por especialista;
-   - prueba el router con una pregunta de backend y una de costos;
-   - ejecuta los tres turnos del reto del carrito de compras;
-   - cierra las conexiones.
+1. Deja los tres servidores arriba.
+2. Abre `notebooks/a2a-test.ipynb` con el kernel de `agente-paulina/.venv`.
+3. Ejecuta **Run All** (todas las celdas en orden).
 4. Guarda el notebook **sin limpiar las salidas**.
+
+El Run All debe mostrar:
+
+- las tres tarjetas preparadas o tomadas como remotas;
+- el descubrimiento de `Rodrigo`, `Christopher` y `Paulina`;
+- `[Supervisor] Rodrigo`, `[Supervisor] Christopher` y `[Supervisor] Paulina` en las tres preguntas
+  del router;
+- la conversación de tres turnos y la conversación de equipo de cuatro turnos;
+- `Clientes A2A cerrados.` al final.
+
+La ejecución tolera caídas: si una URL no responde, marca el perfil como no disponible y continúa
+con los demás. Para la entrega se ejecutan los tres servidores y se muestran las tres especialidades.
+
+## Reto de la ejecución de referencia
+
+Los dos retos usan datos **ficticios del taller**, no de un cliente real:
+
+- 50.000 sesiones de carrito al mes.
+- Conversión base: 2,5 %.
+- Ticket promedio: 35.000 CLP.
+- Margen: 25 %.
+- Escenarios relativos de conversión: conservador +2 %, base +5 %, optimista +10 %.
+- Beneficio mensual sobre el **margen incremental**, no sobre la venta.
+
+Beneficios mensuales: **218.750 / 546.875 / 1.093.750 CLP**.
+
+| Conversación | Costo de Christopher | Decisión con el escenario conservador |
+|---|---:|---|
+| Paulina → Christopher → Paulina | **2.512.000 CLP** | Avanzar solo con alcance reducido/MVP y A/B; ROI 4,5 %, payback 11,48 meses. No escalar sin señal ≥2 % relativo. |
+| Paulina → Rodrigo → Christopher → Paulina | **6.132.000 CLP** | No avanzar con el alcance completo; ROI −57,19 %, payback 28,03 meses. Reducirlo a fase 1 con reglas + A/B y decidir fase 2 con dato propio. |
+
+La diferencia no es una contradicción: el segundo alcance incluye arquitectura, event bus,
+experimentación A/B, logging y model serving; el primero es una intervención más acotada. El
+documento de entrega explica la comparación en “Para comentar en clase”.
+
+Los costos son **simulados** y pueden cambiar si se repite la conversación con otro alcance. La
+documentación usa los de la última ejecución completa.
 
 ## Pruebas automáticas
 
-```bash
-cd agente-christopher
+Paulina:
 
-# Con el .venv propio de Christopher (recomendado):
-.venv/bin/python -m pytest tests/test_costos.py -q
-
-# Alternativa: reutilizar el entorno de Rodrigo.
-../agente-rodrigo/.venv/bin/python -m pytest tests/test_costos.py -q
+```powershell
+cd agente-paulina
+.\.venv\Scripts\python.exe -m pytest tests -q
 ```
 
-Resultado esperado: `22 passed`. No requiere clave ni servidor.
+Resultado de referencia: `45 passed, 2 skipped`.
 
-Las pruebas de A2A de la base de viajes requieren un servidor levantado y están pensadas para el
-perfil que las ejecute; no forman parte de la conversación de Etapa 3.
+Christopher:
+
+```powershell
+cd agente-christopher
+.\.venv\Scripts\python.exe -m pytest tests/test_costos.py -q
+```
+
+Resultado de referencia: `22 passed`. No requiere clave ni servidor.
+
+Las pruebas de A2A de la base de viajes requieren un servidor levantado; no forman parte de la
+conversación de Etapa 3.
+
+## Empaquetar la entrega
+
+Desde la raíz:
+
+```powershell
+.\scripts\empaquetar_entrega.bat
+```
+
+El script crea `dist/grupo-6-taller-a2a-entrega.zip` y excluye `.env`, `.venv/`,
+`.langgraph_api/`, `.git/`, `dist/`, `__pycache__/`, `.pytest_cache/` y `.ipynb_checkpoints/`.
+También verifica que el ZIP no contenga `.env` ni `.venv`; si los encuentra, falla.
+
+El documento de entrega está en `docs/entrega/documento-entrega.md` e incluye la comparación de las
+dos conversaciones para comentar en clase.
 
 ## Decisiones de la integración
 
-1. **`src/agente_viajes/` se conserva** en ambos perfiles. La especificación de la Etapa 1 pide
-   entregar la base tal cual, salvo `src/swarm/`. No participa en el catálogo de Etapa 3: el
-   descubrimiento solo busca los grafos `agente_rodrigo` y `agente_christopher`.
-2. **Cada perfil conserva su notebook de Etapa 2.** El router dinámico se movió al notebook
+1. **`src/agente_viajes/` se conserva** en los perfiles. La especificación de la Etapa 1 pide
+   entregar la base tal cual. No participa en el catálogo de Etapa 3: el descubrimiento busca los
+   grafos `agente_rodrigo`, `agente_christopher` y `agente_paulina`.
+2. **Cada perfil conserva su notebook de Etapa 2.** El router dinámico vive en el notebook
    compartido de la raíz para no mezclar pruebas individuales con orquestación.
 3. **Las tarjetas se actualizan con `assistants.update`.** El nombre y la descripción son los que
    el supervisor lee para elegir especialista. La operación es idempotente.
-4. **La conversación usa un `contextId` UUID por agente.** Así cada uno recuerda su propio hilo y
+4. **Cada conversación usa un `contextId` UUID por agente.** Así cada uno recuerda su propio hilo y
    las respuestas del otro se pasan como datos entre etiquetas.
 5. **Todo ciclo tiene tope.** Los agentes usan `recursion_limit`; el notebook espera tareas A2A con
    timeout y falla con un mensaje claro si un servidor no responde.
+6. **Paulina no diseña arquitectura ni calcula costos.** Rodrigo aporta arquitectura; Christopher
+   aporta costos; Paulina integra el caso de negocio, el impacto y la recomendación.
+7. **El escenario conservador decide.** Base y optimista se muestran como sensibilidad, no como
+   justificación para invertir.
 
 ## Evidencias de la entrega
 
-- `notebooks/a2a-test.ipynb` ejecutado, con:
-  - las dos tarjetas actualizadas;
-  - el descubrimiento mostrando `Rodrigo` y `Christopher`;
-  - las líneas `[Supervisor]` de una pregunta por especialidad;
-  - los tres turnos y la propuesta final.
-- `agente-rodrigo/notebooks/a2a-test.ipynb` y `agente-christopher/notebooks/a2a-test.ipynb`
-  ejecutados para la Etapa 2.
-- `agente-christopher/tests/test_costos.py` en verde.
-- Capturas o copias de las respuestas para el documento de entrega.
+- `notebooks/a2a-test.ipynb` ejecutado con **Run All**, sin errores, con:
+  - las tres tarjetas actualizadas;
+  - el descubrimiento mostrando `Rodrigo`, `Christopher` y `Paulina`;
+  - las tres decisiones `[Supervisor]` correctas;
+  - las dos conversaciones y sus cierres;
+  - el resumen final y `Clientes A2A cerrados.`.
+- `agente-rodrigo/notebooks/a2a-test.ipynb`, `agente-christopher/notebooks/a2a-test.ipynb` y
+  `agente-paulina/notebooks/a2a-test.ipynb` ejecutados para la Etapa 2.
+- `agente-paulina/tests` en verde y `agente-christopher/tests/test_costos.py` en verde.
+- `docs/entrega/documento-entrega.md` con la comparación de las dos conversaciones.
+- Capturas de respaldo de los cierres y de las tarjetas, si el grupo las incorpora al documento.
 
-> No se versionan `.env`, `.venv/`, `.langgraph_api/` ni cachés. La clave se queda en local.
+> No se versionan `.env`, `.venv/`, `.langgraph_api/`, cachés ni claves. La clave se queda en local.
 
 ## Rama de trabajo
 
-Los cambios de la integración se desarrollan en `integracion-agentes-v1`.
+Rama actual: `agente-paulina`. Los cambios de esta fase no se publican con `git push`; la entrega se
+genera con el script de empaquetado.

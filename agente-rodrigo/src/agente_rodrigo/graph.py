@@ -14,6 +14,7 @@ import os
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import create_agent
+from langchain.agents.middleware import ModelFallbackMiddleware
 
 from src.agente_rodrigo.herramientas import HERRAMIENTAS
 from src.agente_rodrigo.prompts import SYSTEM_RODRIGO
@@ -24,9 +25,16 @@ modelo = ChatGoogleGenerativeAI(model=os.environ.get("MODELO", "gemini-3.5-flash
 
 # Agente ReAct (LangChain 1.x): el modelo decide qué herramienta llamar, la llama, lee el resultado y responde.
 # Su estado tiene la clave `messages`: eso es lo único que A2A necesita para mapear sus `parts` de texto.
-graph = create_agent(
-    model=modelo,
-    tools=HERRAMIENTAS,
-    system_prompt=SYSTEM_RODRIGO,
-    name="agente_rodrigo",
-)
+parametros_agente = {
+    "model": modelo,
+    "tools": HERRAMIENTAS,
+    "system_prompt": SYSTEM_RODRIGO,
+    "name": "agente_rodrigo",
+}
+if os.environ.get("DEEPSEEK_API_KEY"):
+    from langchain_deepseek import ChatDeepSeek
+
+    respaldo = ChatDeepSeek(model=os.environ.get("MODELO_RESPALDO", "deepseek-chat"))
+    parametros_agente["middleware"] = [ModelFallbackMiddleware(respaldo)]
+
+graph = create_agent(**parametros_agente)
