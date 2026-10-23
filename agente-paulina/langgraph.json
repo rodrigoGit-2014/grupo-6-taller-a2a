@@ -1,0 +1,8 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "agente_viajes": "./src/agente_viajes/graph.py:graph",
+    "agente_paulina": "./src/agente_paulina/graph.py:graph"
+  },
+  "env": ".env"
+}
